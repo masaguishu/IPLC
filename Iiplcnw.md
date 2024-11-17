@@ -16,8 +16,8 @@ iptables -P OUTPUT ACCEPT
 sysctl -w net.ipv4.ip_forward=1
 
 # 配置PREROUTING链，将指定端口的流量进行DNAT到目标内网IP
-iptables -t nat -A PREROUTING -p tcp --dport 1025:65535 -j DNAT --to-destination "$destination_ip"
-iptables -t nat -A PREROUTING -p udp --dport 1025:65535 -j DNAT --to-destination "$destination_ip"
+iptables -t nat -A PREROUTING -p tcp --dport 1:65535 -j DNAT --to-destination "$destination_ip"
+iptables -t nat -A PREROUTING -p udp --dport 1:65535 -j DNAT --to-destination "$destination_ip"
 
 # 配置POSTROUTING链，将来自目标内网IP的响应流量进行SNAT，将源地址设置为本机内网IP
 iptables -t nat -A POSTROUTING -p tcp -d "$destination_ip" --dport 1025:65535 -j SNAT --to-source "$local_ip"
